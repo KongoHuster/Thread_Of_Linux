@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "readfile.h"
-
-const static char *fileInput = "../input/input.txt";
-const static char *fileOutput = "output.txt";
+#include "readwritefile.h"
 
 //获取input.txt文件中的N和M
-void getInput(int * N, long * M)
+void getInput(int *N, long *M)
 {
       FILE *file;
       file = fopen(fileInput, "r");
@@ -21,7 +18,7 @@ void getInput(int * N, long * M)
             if (fgets(string, 20, file) != NULL)
             {
                   *N = atoi(string);
-                  printf("%d\n", N);
+                  // printf("%d\n", *N);
             }
             else
             {
@@ -32,7 +29,7 @@ void getInput(int * N, long * M)
             if (fgets(string, 20, file) != NULL)
             {
                   *M = atol(string);
-                  printf("%d\n", M);
+                  // printf("%d\n", *M);
             }
             else
             {
@@ -40,4 +37,12 @@ void getInput(int * N, long * M)
             }
       }
 
+      fclose(file);
+}
+
+void setOutput(long result)
+{
+      FILE *fpWrite = NULL;
+      fpWrite = fopen(fileOutput, "w");
+      fprintf(fpWrite, "%ld", result);
 }

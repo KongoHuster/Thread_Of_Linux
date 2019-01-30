@@ -1,5 +1,5 @@
-aplication : main.o time.o readfile.o
-	cc -o aplication main.o time.o readfile.o
+aplication : main.o time.o readwritefile.o
+	cc -o aplication main.o time.o readwritefile.o
 
 main.o : main.c 
 	g++ -c main.c
@@ -7,8 +7,8 @@ main.o : main.c
 time.o : time.c time.h
 	g++ -c time.c
 
-readfile.o : readfile.c readfile.h
-	g++ -c readfile.c
+readwritefile.o : readwritefile.c readwritefile.h
+	g++ -c readwritefile.c
 
 clean :
-	rm aplication main.o time.o readfile.o
+	rm aplication main.o time.o readwritefile.o

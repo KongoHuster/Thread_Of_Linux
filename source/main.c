@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "time.h"
-#include "readfile.h"
+#include "readwritefile.h"
 
-long MAX;       //整数范围 1 ～ MAX
-int N;          //创建N 个子线程求和
-int AVE;        //每个子线程处理的整数个数
+
+long MAX;  //整数范围 1 ～ MAX
+int N;     //创建N 个子线程求和
+int AVE;   //每个子线程处理的整数个数
 long *sum; //保存各个子线程计算的结果
+
 
 //求和子线程
 void *sum_work(void *arg)
@@ -36,8 +38,8 @@ int main(int argc, char const *argv[])
     printf("N的值为%d\n", N);
     double t1, t2;           //先后时间
     pthread_t pthread_id[N]; //保存子线程id
-    long long result = 0;    //累加结果
-    int indexes[N]; //暂存n
+    long result = 0;    //累加结果
+    int indexes[N];          //暂存n
 
     //获取时间
     t1 = get_time();
@@ -58,8 +60,9 @@ int main(int argc, char const *argv[])
     }
 
     t2 = get_time();
-    printf("result is : %lld\n", result);
-    
+    printf("result is : %ld\n", result);
+
+    setOutput(result);
     pthread_exit(0);
     return 0;
 }
