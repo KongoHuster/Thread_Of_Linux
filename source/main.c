@@ -3,15 +3,16 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define MAX     100    //整数范围 1 ～ MAX
-#define N       10           //创建N 个子线程求和
+#define MAX     1000   //整数范围 1 ～ MAX
+#define N       20           //创建N 个子线程求和
 #define AVE     (MAX/N)       //每个子线程处理的整数个数
 
 long long     sum[N];    //保存各个子线程计算的结果
-
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 //求和子线程
 void* sum_work(void* arg)
 {
+
     int n = *((int*)arg);  //第n部分
     printf("n:%d\n",n);
     long long      start = n*AVE+1;
@@ -27,7 +28,8 @@ void* sum_work(void* arg)
         sum[n] = sum[n] + i;
     }
     printf("第%d组所求和为：%lld\n", n, sum[n]);
-    pthread_exit(0);
+
+    pthread_exit(NULL);
 }
 
 
@@ -42,17 +44,19 @@ double get_time()
 int main(int argc, char const *argv[])
 {     
     double t1,t2;
-    pthread_t pthread_id[N]; //保存子线程id
+    pthread_t pthread_id[N]; //保存子线程id  
     int i = 0;
     long long result = 0;
+    int indexes[N];
     t1 = get_time();
     printf("%f\n", t1);
     
+  
     //创建N个子线程
     for(int i = 0; i < N; i++)
     {
-        
-        int ret = pthread_create(&pthread_id[i], NULL, sum_work,&i);
+        indexes[i] = i;
+        int ret = pthread_create(&pthread_id[i], NULL, sum_work, (void *)&indexes[i]);
         printf("i的值为：%d\n", i);
     }
 
@@ -66,6 +70,6 @@ int main(int argc, char const *argv[])
     t2 = get_time();
     printf("result is : %lld\n",result);
     printf("runtime is %f\n",t2-t1);
-
+    pthread_exit(0);
     return 0;
 }
