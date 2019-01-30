@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
       t1 = get_time();
       printf("%f", t1);
 
-      for(int i = 0; i < 100; i++)
+      for(int i = 0; i < 10000; i++)
       {
             printf("");
       }
