@@ -1,10 +1,12 @@
 #include <stdio.h>
-# include <stdlib.h>
+#include <stdlib.h>
+#include "readfile.h"
 
 const static char *fileInput = "../input/input.txt";
 const static char *fileOutput = "output.txt";
 
-int main()
+//获取input.txt文件中的N和M
+void getInput(int * N, long * M)
 {
       FILE *file;
       file = fopen(fileInput, "r");
@@ -18,7 +20,8 @@ int main()
             fseek(file, 2, SEEK_SET);
             if (fgets(string, 20, file) != NULL)
             {
-                  printf("%d\n", atoi(string));
+                  *N = atoi(string);
+                  printf("%d\n", N);
             }
             else
             {
@@ -28,7 +31,8 @@ int main()
             fseek(file, ftell(file) + 2, SEEK_SET);
             if (fgets(string, 20, file) != NULL)
             {
-                  printf("%d\n", atoi(string));
+                  *M = atol(string);
+                  printf("%d\n", M);
             }
             else
             {
