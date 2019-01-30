@@ -1,5 +1,12 @@
-thread : main.c
-	g++ -o thread main.c
+aplication : main.o time.o
+	cc -o aplication main.o time.o
+
+main.o : main.c 
+	g++ -c main.c
+
+time.o : time.c time.h
+	g++ -c time.c
+
 
 clean :
-	rm thread
+	rm aplication main.o time.o

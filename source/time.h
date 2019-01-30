@@ -1,5 +1,5 @@
-#ifndef TIME.H
-#define TIME.H
+#ifndef TIME
+#define TIME
 
 double get_time();
 
