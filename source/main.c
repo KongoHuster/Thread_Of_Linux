@@ -5,40 +5,50 @@
 #include "time.h"
 #include "readwritefile.h"
 
-
 long MAX;  //整数范围 1 ～ MAX
 int N;     //创建N 个子线程求和
 int AVE;   //每个子线程处理的整数个数
 long *sum; //保存各个子线程计算的结果
 
+const static char *fileInputPath = "../input/input.txt";
+const static char *fileOutputPath = "../output/output.txt";
 
 //求和子线程
 void *sum_work(void *arg)
 {
     int n = *((int *)arg); //第n部分
     long long start = n * AVE + 1;
-    long long end = start + AVE - 1;
+    long long end;
+    if (n < N -1)
+    {
+        end = start + AVE - 1;
+    }
+    else
+    {
+        end = MAX;
+    }
+
     int i;
     sum[n] = 0;
     //计算start ~ end 范围的整数和
     for (i = start; i <= end; i++)
     {
-        // printf("%lld\n",i);
         sum[n] = sum[n] + i;
     }
-    printf("第%d组所求和为：%ld\n", n, sum[n]);
+    // printf("第%d组所求和为：%ld\n", n, sum[n]);
     pthread_exit(NULL);
 }
 
-int main(int argc, char const *argv[])
+int run_thread(const char *fileInput, const char *fileOutput)
 {
-    getInput(&N, &MAX);
+    getInput(&N, &MAX, fileInput);
     AVE = MAX / N;
     sum = (long *)malloc(N * sizeof(long));
-    printf("N的值为%d\n", N);
+    printf("Value of N is %d\n", N);
+    printf("Value of M is %ld\n", MAX);
     double t1, t2;           //先后时间
     pthread_t pthread_id[N]; //保存子线程id
-    long result = 0;    //累加结果
+    long result = 0;         //累加结果
     int indexes[N];          //暂存n
 
     //获取时间
@@ -49,7 +59,7 @@ int main(int argc, char const *argv[])
     {
         indexes[i] = i;
         int ret = pthread_create(&pthread_id[i], NULL, sum_work, (void *)&indexes[i]);
-        printf("i的值为：%d\n", i);
+        // printf("i的值为：%d\n", i);
     }
 
     for (int i = 0; i < N; i++)
@@ -60,9 +70,15 @@ int main(int argc, char const *argv[])
     }
 
     t2 = get_time();
-    printf("result is : %ld\n", result);
-
-    setOutput(result);
+    printf("result is %ld\n", result);
+    printf("Run time is %f\n", t2 - t1);
+    setOutput(result, fileOutput);
     pthread_exit(0);
+    return 0;
+}
+
+int main(int argc, char const *argv[])
+{
+    run_thread(fileInputPath, fileOutputPath);
     return 0;
 }

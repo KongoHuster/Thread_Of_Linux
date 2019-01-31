@@ -3,7 +3,7 @@
 #include "readwritefile.h"
 
 //获取input.txt文件中的N和M
-void getInput(int *N, long *M)
+void getInput(int *N, long *M, const char *fileInput)
 {
       FILE *file;
       file = fopen(fileInput, "r");
@@ -40,7 +40,7 @@ void getInput(int *N, long *M)
       fclose(file);
 }
 
-void setOutput(long result)
+void setOutput(long result, const char *fileOutput)
 {
       FILE *fpWrite = NULL;
       fpWrite = fopen(fileOutput, "w");

@@ -1,10 +1,7 @@
 #ifndef READWRITEFILE
 #define READWRITEFILE
 
-const static char *fileInput = "../input/input.txt";
-const static char *fileOutput = "../output/output.txt";
+void getInput(int *N, long *M, const char *fileInput);
 
-void getInput(int * N, long * M);
-
-void setOutput(long result);
+void setOutput(long result, const char *fileOutput);
 #endif
