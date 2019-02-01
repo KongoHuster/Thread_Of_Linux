@@ -13,14 +13,10 @@ long *sum; //保存各个子线程计算的结果
 //求取最终的结果
 long correct_answer(){
     long answer = 0;
-    printf("MAX %ld\n", MAX);
-
     for(int i = 0; i <= MAX; i++)
     {
         answer = answer + i;
     }
-    
-    printf("%ld\n", answer);
     return answer;
 }
 
@@ -81,8 +77,16 @@ int run_thread(const char *fileInput, const char *fileOutput)
     }
 
     t2 = get_time();
-    printf("result is %ld\n", result);
-    printf("correct answer is %ld\n", correct_answer());
+    printf("Result is %ld\n", result);
+    printf("Correct answer is %ld\n", correct_answer());
+    if (result == correct_answer()) {
+        printf("Thread alculation is right\n");
+    }else
+    {
+        printf("Thread alculation is wrong\n");
+    }
+    
+    
     printf("Run time is %f\n", t2 - t1);
     setOutput(result, fileOutput);
     // pthread_exit(0);
