@@ -1,21 +1,23 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <pthread.h>
 #include "time.h"
 #include "readwritefile.h"
 #include "thread.h"
 
-const static char *fileInputPath = "../input/input.txt";
-const static char *fileOutputPath = "./output/output.txt";
-static char *Path = "../input/input1.txt";
+const static char *fileInputPath = "../input/";
+const static char *fileOutputPath = "../output/output";
 
 int main(int argc, char const *argv[])
 {
 
-    DIR *dir = opendir("./input");
+    DIR *dir = opendir("../input/");
     struct dirent *entry;
-    char *txt;
-    txt = "1212";
+
 
     if (dir == NULL)
     {
@@ -27,22 +29,30 @@ int main(int argc, char const *argv[])
         //跳过..
         entry = readdir(dir);
         entry = readdir(dir);
-        char *path; 
-
+        char *outPath = (char *)malloc(strlen(fileOutputPath) + strlen(".txt") + 2); 
+        char *inputPath = (char *)malloc(strlen(fileInputPath) + strlen("input.txt") + 2);
+        int Q = -1;
         for(int i = 0; entry != NULL; i++)
         {
             entry = readdir(dir);
-            strcmp(Path, fileInputPath);
-            // run_thread(entry->d_name, fileOutputPath);
-            printf("Path is %s\n", Path);
-            printf("Path is %s\n", fileInputPath);
-            printf("filename = %s\n", entry->d_name); //输出文件或者目录的名称
-            printf("filetype = %d\n", entry->d_type);     //输出文件类型
-        }
-    
-        closedir(dir);
 
-        // run_thread(fileInputPath, fileOutputPath);
+            //判断是否entry为空
+            if (entry == NULL) {
+
+                printf("运行结束\n"); 
+                closedir(dir);
+                break;
+            }
+        
+            sprintf(outPath, "%s%d%s", fileOutputPath, i, ".txt");
+            sprintf(inputPath, "%s%s", fileInputPath, entry->d_name);
+            run_thread(inputPath, outPath); 
+            printf("Path is %s\n", outPath);
+            printf("Path is %s\n", inputPath);
+            printf("filename = %s\n", entry->d_name); //输出文件或者目录的名称
+            printf("filetype = %d\n\n\n", entry->d_type);     //输出文件类型
+        }
+
         return 0;
     }
 }

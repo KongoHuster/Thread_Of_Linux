@@ -70,7 +70,7 @@ int run_thread(const char *fileInput, const char *fileOutput)
     printf("result is %ld\n", result);
     printf("Run time is %f\n", t2 - t1);
     setOutput(result, fileOutput);
-    pthread_exit(0);
+    // pthread_exit(0);
     return 0;
 }
 

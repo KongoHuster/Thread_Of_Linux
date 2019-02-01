@@ -45,4 +45,5 @@ void setOutput(long result, const char *fileOutput)
       FILE *fpWrite = NULL;
       fpWrite = fopen(fileOutput, "w");
       fprintf(fpWrite, "%ld", result);
+      fclose(fpWrite);
 }
