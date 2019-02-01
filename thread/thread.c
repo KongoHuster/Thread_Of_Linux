@@ -10,6 +10,20 @@ int N;     //创建N 个子线程求和
 int AVE;   //每个子线程处理的整数个数
 long *sum; //保存各个子线程计算的结果
 
+//求取最终的结果
+long correct_answer(){
+    long answer = 0;
+    printf("MAX %ld\n", MAX);
+
+    for(int i = 0; i <= MAX; i++)
+    {
+        answer = answer + i;
+    }
+    
+    printf("%ld\n", answer);
+    return answer;
+}
+
 //求和子线程
 void *sum_work(void *arg)
 {
@@ -68,6 +82,7 @@ int run_thread(const char *fileInput, const char *fileOutput)
 
     t2 = get_time();
     printf("result is %ld\n", result);
+    printf("correct answer is %ld\n", correct_answer());
     printf("Run time is %f\n", t2 - t1);
     setOutput(result, fileOutput);
     // pthread_exit(0);

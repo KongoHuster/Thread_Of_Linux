@@ -9,13 +9,13 @@
 #include "readwritefile.h"
 #include "thread.h"
 
-const static char *fileInputPath = "../input/";
-const static char *fileOutputPath = "../output/output";
+const static char *fileInputPath = "./input/";
+const static char *fileOutputPath = "./output/output";
 
 int main(int argc, char const *argv[])
 {
 
-    DIR *dir = opendir("../input/");
+    DIR *dir = opendir("./input/");
     struct dirent *entry;
 
 
@@ -47,12 +47,14 @@ int main(int argc, char const *argv[])
             sprintf(outPath, "%s%d%s", fileOutputPath, i, ".txt");
             sprintf(inputPath, "%s%s", fileInputPath, entry->d_name);
             run_thread(inputPath, outPath); 
-            printf("Path is %s\n", outPath);
-            printf("Path is %s\n", inputPath);
-            printf("filename = %s\n", entry->d_name); //输出文件或者目录的名称
-            printf("filetype = %d\n\n\n", entry->d_type);     //输出文件类型
+            printf("\n\n");
+            // printf("Path is %s\n", outPath);
+            // printf("Path is %s\n", inputPath);
+            // printf("filename = %s\n", entry->d_name); //输出文件或者目录的名称
+            // printf("filetype = %d\n\n\n", entry->d_type);     //输出文件类型
         }
 
         return 0;
     }
 }
+
