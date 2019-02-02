@@ -11,9 +11,10 @@ int AVE;   //每个子线程处理的整数个数
 long *sum; //保存各个子线程计算的结果
 
 //求取最终的结果
-long correct_answer(){
+long correct_answer()
+{
     long answer = 0;
-    for(int i = 0; i <= MAX; i++)
+    for (int i = 0; i <= MAX; i++)
     {
         answer = answer + i;
     }
@@ -26,7 +27,7 @@ void *sum_work(void *arg)
     int n = *((int *)arg); //第n部分
     long long start = n * AVE + 1;
     long long end;
-    if (n < N -1)
+    if (n < N - 1)
     {
         end = start + AVE - 1;
     }
@@ -53,6 +54,19 @@ int run_thread(const char *fileInput, const char *fileOutput)
     sum = (long *)malloc(N * sizeof(long));
     printf("Value of N is %d\n", N);
     printf("Value of M is %ld\n", MAX);
+
+    if (N < 1 || N >= 100)
+    {
+        printf("N is out of 1 and 100.\n");
+        return -1;
+    }
+
+    if (MAX < 0 || MAX >= 4294967296)
+    {
+        printf("M is out of 0 and 4294967296.\n");
+        return -1;
+    }
+
     double t1, t2;           //先后时间
     pthread_t pthread_id[N]; //保存子线程id
     long result = 0;         //累加结果
@@ -77,19 +91,21 @@ int run_thread(const char *fileInput, const char *fileOutput)
     }
 
     t2 = get_time();
+    
+    long answer = correct_answer();
     printf("Result is %ld\n", result);
-    printf("Correct answer is %ld\n", correct_answer());
-    if (result == correct_answer()) {
+    printf("Correct answer is %ld\n", answer);
+    if (result == answer)
+    {
         printf("Thread alculation is right\n");
-    }else
+    }
+    else
     {
         printf("Thread alculation is wrong\n");
     }
-    
-    
+
     printf("Run time is %f\n", t2 - t1);
     setOutput(result, fileOutput);
     // pthread_exit(0);
     return 0;
 }
-
