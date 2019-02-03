@@ -1,5 +1,5 @@
 multisum : main.o time.o readwritefile.o process.o
-	cc -o multisum main.o time.o readwritefile.o process.o
+	cc -pthread -o multisum main.o time.o readwritefile.o process.o
 
 main.o : main.c 
 	g++ -c main.c
