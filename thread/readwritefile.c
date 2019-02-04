@@ -6,6 +6,7 @@
 void getInput(int *N, long *M, const char *fileInput)
 {
       FILE *file;
+      printf("%s\n", fileInput);
       file = fopen(fileInput, "r");
       char string[20];
       if (file == NULL)

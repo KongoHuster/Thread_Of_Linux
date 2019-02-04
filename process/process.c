@@ -33,7 +33,7 @@ long correct_answer()
     return answer;
 }
 
-int run_thread(const char *fileInput, const char *fileOutput)
+int run_proccess(const char *fileInput, const char *fileOutput)
 {
     getInput(&N, &MAX, fileInput);
     AVE = MAX / N;
@@ -53,17 +53,10 @@ int run_thread(const char *fileInput, const char *fileOutput)
     }
 
     double t1, t2; //先后时间
-    // pthread_t pthread_id[N]; //保存子线程id
-    long result = 0; //累加结果
     Process *pProcess;
     int share_memory_id;
 
-    //分配共享内存空间
-    int shm_id;
-    Process *pProcess;
-
-    printf("111  %d\n", PERM);
-    if ((shm_id = shmget(IPC_PRIVATE, sizeof(Process), PERM)) == -1)
+    if ((share_memory_id = shmget(IPC_PRIVATE, sizeof(Process), PERM)) == -1)
     {
         printf("Create Share Memory Error.\n");
         return -1;
@@ -73,67 +66,70 @@ int run_thread(const char *fileInput, const char *fileOutput)
     pProcess->number = 0;
     pProcess->sum = 0;
 
-    // //初始化信號量
-    // sem_init(&pProcess->signal, 0, 1);
-    // pid_t pid;
-    // int status;
+    //初始化信號量
+    sem_init(&pProcess->signal, 0, 1);
+    pid_t pid;
+    int status;
 
-    // //获取时间
-    // t1 = get_time();
+    //获取时间
+    t1 = get_time();
 
-    // for (int i = 0; i < N; i++)
-    // {
-    //     pid = fork();
-    //     //返回子進程的id
-    //     if (pid == 0 || pid == -1)
-    //     {
-    //         perror("Error happen!\n");
-    //         break;
-    //     }
-    // }
+    int k = 0;
+   for (int i = 0; i < N; i++)
+    {
+        pid = fork();
+        //返回子進程的id
+        if (pid == 0 || pid == -1)
+        {
 
-    // if (pid == -1)
-    // {
-    //     printf("Fail to fork!\n");
-    //     return -1;
-    // }
-    // else if (pid == 0)
-    // {
-    //     while (pProcess->number <= MAX)
-    //     {
+            break;
+        }
+    } 
 
-    //         // printf("S : %d\n", pProcess->S);
-    //         sem_wait(&pProcess->signal);
-    //         if (pProcess->number <= MAX)
-    //         {
-    //             pProcess->sum += pProcess->number++;
-    //         }
-    //         sem_post(&pProcess->signal);
-    //         //  printf("S1 : %d\n", pProcess->S);
-    //     }
-    // }
-    // else
-    // {
-    //     wait(&status);
+    if (pid == -1)
+    {
+        printf("Fail to fork!\n");
+        return -1;
+    }
+    else if (pid == 0)
+    {
+        while (pProcess->number <= MAX)
+        {
+            sem_wait(&pProcess->signal);
+            if (pProcess->number <= MAX)
+            {
+                pProcess->sum += pProcess->number++;
+            }
+            sem_post(&pProcess->signal);
+            k += 1;
+        }
+    }
+    else
+    {
+        wait(&status);
 
-    //     sem_destroy(&pProcess->signal);
-    //     t2 = get_time();
+        sem_destroy(&pProcess->signal);
 
-    //     long answer = correct_answer();
-    //     printf("Result is %ld\n", result);
-    //     printf("Correct answer is %ld\n", answer);
-    //     if (result == answer)
-    //     {
-    //         printf("Thread alculation is right\n");
-    //     }
-    //     else
-    //     {
-    //         printf("Thread alculation is wrong\n");
-    //     }
+        t2 = get_time();
 
-    //     printf("Run time is %f\n", t2 - t1);
-    //     setOutput(result, fileOutput);
-    // }
+        long answer = correct_answer();
+        printf("Result is %ld\n", pProcess->sum);
+        printf("Correct answer is %ld\n", answer);
+        if (pProcess->sum == answer)
+        {
+                // printf("\n\n");
+            printf("Process alculation is right\n");
+        }
+        else
+        {
+            printf("Process alculation is wrong\n");
+        }
+
+        printf("Run time is %f\n", t2 - t1);
+        // printf("%s\n", fileOutput);
+        setOutput(pProcess->sum, fileOutput);
+        // printf("\n\n");
+    }
 
     // pthread_exit(0);
     return 0;
