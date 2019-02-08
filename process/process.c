@@ -109,7 +109,10 @@ int run_proccess(const char *fileInput, const char *fileOutput)
         wait(&status);
 
         sem_destroy(&pProcess->signal);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1623becbe5f099ee082c6b6ca6c77283cfb5a315
         t2 = get_time();
 
         long answer = correct_answer();
@@ -117,7 +120,10 @@ int run_proccess(const char *fileInput, const char *fileOutput)
         printf("Correct answer is %ld\n", answer);
         if (pProcess->sum == answer)
         {
+<<<<<<< HEAD
                 // printf("\n\n");
+=======
+>>>>>>> 1623becbe5f099ee082c6b6ca6c77283cfb5a315
             printf("Process alculation is right\n");
         }
         else
@@ -128,7 +134,10 @@ int run_proccess(const char *fileInput, const char *fileOutput)
         printf("Run time is %f\n", t2 - t1);
         // printf("%s\n", fileOutput);
         setOutput(pProcess->sum, fileOutput);
+<<<<<<< HEAD
         // printf("\n\n");
+=======
+>>>>>>> 1623becbe5f099ee082c6b6ca6c77283cfb5a315
     }
 
     // pthread_exit(0);
