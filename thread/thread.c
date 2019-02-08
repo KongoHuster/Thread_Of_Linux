@@ -47,8 +47,9 @@ void *sum_work(void *arg)
     pthread_exit(NULL);
 }
 
-int run_thread(const char *fileInput, const char *fileOutput)
+int run_thread(const char *fileInput, const char *fileOutput,  const char *timeOutPath)
 {
+    
     getInput(&N, &MAX, fileInput);
     AVE = MAX / N;
     sum = (long *)malloc(N * sizeof(long));
@@ -106,6 +107,7 @@ int run_thread(const char *fileInput, const char *fileOutput)
 
     printf("Run time is %f\n", t2 - t1);
     setOutput(result, fileOutput);
+    setTimeOutput(t2 - t1, timeOutPath);
     // pthread_exit(0);
     return 0;
 }

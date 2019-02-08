@@ -11,6 +11,7 @@
 
 const static char *fileInputPath = "./input/";
 const static char *fileOutputPath = "./output/output";
+const static char *fileTimePath = "./timeresult/time";
 
 int main(int argc, char const *argv[])
 {
@@ -21,7 +22,7 @@ int main(int argc, char const *argv[])
 
     if (dir == NULL)
     {
-        printf("opendir failed!");
+        printf("Opendir failed!\n");
         return -1;
     }
     else
@@ -29,6 +30,8 @@ int main(int argc, char const *argv[])
         //跳过..
         // entry = readdir(dir);
         // entry = readdir(dir);
+
+        char *timePath = (char *)malloc(strlen(fileTimePath) + strlen(".txt") + 2); 
         char *outPath = (char *)malloc(strlen(fileOutputPath) + strlen(".txt") + 2); 
         char *inputPath = (char *)malloc(strlen(fileInputPath) + strlen("input.txt") + 2);
         int Q = -1;
@@ -44,12 +47,17 @@ int main(int argc, char const *argv[])
                 break;
             }
         
-            sprintf(outPath, "%s%d%s", fileOutputPath, i, ".txt");
+            sprintf(timePath, "%s%s", fileTimePath, entry->d_name);
+            sprintf(outPath, "%s%s", fileOutputPath, entry->d_name);
             sprintf(inputPath, "%s%s", fileInputPath, entry->d_name);
+
+            printf("%d : %s\n", i, timePath);
+            printf("%d : %s\n", i, outPath);
+            printf("%d : %s\n", i, inputPath);
 
             if(strcmp(inputPath, "./input/.") != 0 & strcmp(inputPath, "./input/..") != 0)
             {
-                run_thread(inputPath, outPath);
+                run_thread(inputPath, outPath, timePath);
                 printf("\n\n");
             }
 

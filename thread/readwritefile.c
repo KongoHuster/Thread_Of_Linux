@@ -48,3 +48,11 @@ void setOutput(long result, const char *fileOutput)
       fprintf(fpWrite, "%ld", result);
       fclose(fpWrite);
 }
+
+void setTimeOutput(double result, const char *fileOutput)
+{
+      FILE *fpWrite = NULL;
+      fpWrite = fopen(fileOutput, "w");
+      fprintf(fpWrite, "%f", result * 1000);
+      fclose(fpWrite);
+}

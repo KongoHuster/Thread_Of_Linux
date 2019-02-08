@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 
     if (dir == NULL)
     {
-        printf("opendir failed!");
+        printf("Opendir failed!\n");
         return -1;
     }
     else
