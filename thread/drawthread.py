@@ -1,4 +1,7 @@
+# encoding=utf-8
 import os
+from pylab import *
+from ctypes import *
 
 string_N = "N="
 string_M = "M="
@@ -30,3 +33,8 @@ for i in range(0,count-1):
             s = file.read()
             value_time[i] = float(s)
             print(value_time[i])
+
+
+
+plt.plot(value_N, value_time, 'ob-', label=u'y=x^2曲线图')
+plt.show()
