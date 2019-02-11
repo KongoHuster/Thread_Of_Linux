@@ -12,7 +12,7 @@
 #include "process.h"
 
 const static char *fileInputPath = "./input/";
-const static char *fileOutputPath = "./output/output";
+const static char *fileOutputPath = "./output/output0_0.txt";
 
 int main(int argc, char const *argv[])
 {
@@ -52,7 +52,8 @@ int main(int argc, char const *argv[])
 
             if(strcmp(inputPath, "./input/.") != 0 & strcmp(inputPath, "./input/..") != 0)
             {
-                sprintf(outPath, "%s%d%s", fileOutputPath, i, ".txt");
+                sprintf(outPath, "%s", fileOutputPath);
+
                 run_proccess(inputPath, outPath);
                 wait(&status);
             }else{
