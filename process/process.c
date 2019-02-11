@@ -14,6 +14,7 @@
 long MAX; //整数范围 1 ～ MAX
 int N;    //创建N 个子线程求和
 int AVE;  //每个子线程处理的整数个数
+char resultOutput[] = "timeresult/timeinput0_0.txt";
 
 typedef struct
 {
@@ -125,10 +126,9 @@ int run_proccess(const char *fileInput, const char *fileOutput)
             printf("Process alculation is wrong\n");
         }
 
-        printf("Run time is %f\n", t2 - t1);
-        // printf("%s\n", fileOutput);
+        printf("Run time is %f\n\n", t2 - t1);
         setOutput(pProcess->sum, fileOutput);
-
+        setTimeOutput(t2 - t1, resultOutput);
     }
 
     // pthread_exit(0);

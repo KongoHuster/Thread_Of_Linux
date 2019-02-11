@@ -49,7 +49,6 @@ int main(int argc, char const *argv[])
 
             
             sprintf(inputPath, "%s%s", fileInputPath, entry->d_name);
-            sprintf(inputPath, "%s%s", fileInputPath, entry->d_name);
 
             if(strcmp(inputPath, "./input/.") != 0 & strcmp(inputPath, "./input/..") != 0)
             {
